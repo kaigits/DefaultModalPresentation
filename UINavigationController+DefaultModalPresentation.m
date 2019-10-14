@@ -38,16 +38,16 @@
     if (@available(iOS 13.0, *)) {
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
-            [self swizzleInstanceSelector:@selector(viewDidLoad) withNewSelector:@selector(df_viewDidLoad)];
+            [self swizzleInstanceSelector:@selector(initWithRootViewController:) withNewSelector:@selector(df_initWithRootViewController:)];
         });
     }
 }
 
-- (instancetype)df_viewDidLoad{
-    [self df_viewDidLoad];
+- (instancetype)df_initWithRootViewController:(UIViewController *)rootVC {
+    UINavigationController *nav = [self df_initWithRootViewController:rootVC];
     if (@available(iOS 13.0, *)) {
-        self.modalPresentationStyle = UIModalPresentationFullScreen;
+        nav.modalPresentationStyle = UIModalPresentationFullScreen;
     }
-    return self;
+    return nav;
 }
 @end
